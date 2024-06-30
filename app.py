@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import streamlit as st
-from pycaret.classification import load_model, predict_model
+from pycaret.classification import *
 
 
 
@@ -101,7 +101,7 @@ def main():
                         it is important to continue regular check-ups and consult a healthcare professional if you have any concerns.
                             """)
             st.write(prediction_score)
-            
+
         except KeyError as e:
             st.error(f"Error: {e}. Check input data columns and try again.")
 
