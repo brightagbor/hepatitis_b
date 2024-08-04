@@ -3,11 +3,18 @@ import pandas as pd
 import numpy as np
 import streamlit as st
 from pycaret.classification import *
+import tensorflow as tf
 
 
 
 #  Loading the model back to a Python Environment¶
-model = load_model("smote_model")
+# model = load_model("smote_model")
+
+# Path to the HDF5 file
+model_path = "ann_model.h5"
+
+# Load the model
+model = tf.keras.models.load_model(model_path)
 
 # Define the Streamlit app
 def main():
@@ -73,37 +80,39 @@ def main():
     # Convert the dictionary to a DataFrame
     input_df = pd.DataFrame([input_data])
 
+    # Define the prediction process in Streamlit
     if st.button('Predict'):
         try:
-
             # Make predictions using the model
-            prediction_result = predict_model(model, data=input_df)
-            st.write(prediction_result)
-
-            # Extract specific details from the prediction result
-            prediction_label = prediction_result['prediction_label'][0]
-            prediction_score = prediction_result['prediction_score'][0]
-
-            print(type(prediction_label))
-
-            # Display specific details
+            predictions = model.predict(input_df)
+            
+            # Assuming the model outputs a single probability value for binary classification
+            prediction_score = predictions[0][0]
+            
+            # Determine the class label based on a threshold
+            threshold = 0.5
+            prediction_label = 1 if prediction_score > threshold else 0
+            
+            # Display prediction results
             st.subheader("Prediction Result")
-
-            if prediction_label == 0:  # Assuming 0 indicates a negative result
-                chance = str(prediction_score*100)[:4]
-                st.error(f"""The model indicates that you may have Hepatitis B, with a {chance}% probability of being affected by the infection. 
-                        It is crucial to seek further evaluation and confirmation from a healthcare professional and to follow their recommended course of action""")
-
-            else: # Assuming 1 indicates a positive result
-                chance = str(prediction_score*100)[:4]
-                st.success(f"""
-                            The model suggests that you are unlikely to have Hepatitis B, with a {chance}% probability of being free from the infection. Nonetheless, 
-                        it is important to continue regular check-ups and consult a healthcare professional if you have any concerns.
-                            """)
-            st.write(prediction_score)
-
+            
+            # Format the prediction score for display
+            chance = f"{prediction_score * 100:.2f}"
+            
+            # Provide feedback based on the prediction label
+            if prediction_label == 0:
+                
+                st.error(f"The model indicates that you may have Hepatitis B, with a {100-float(chance)}% probability of being affected by the infection. It is crucial to seek further evaluation and confirmation from a healthcare professional and to follow their recommended course of action.")
+            else:
+                st.success(f"The model suggests that you are unlikely to have Hepatitis B, with a {chance}% probability of being free from the infection. Nonetheless, it is important to continue regular check-ups and consult a healthcare professional if you have any concerns.")
+            
+            # Display the prediction score
+            st.write(f"Prediction Score: {prediction_score:.4f}")
+        
         except KeyError as e:
             st.error(f"Error: {e}. Check input data columns and try again.")
+        except Exception as e:
+            st.error(f"An unexpected error occurred: {e}")
 
 if __name__ == '__main__':
     main()
