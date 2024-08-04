@@ -60,7 +60,6 @@ rich==13.7.1
 schemdraw==0.15
 scikit-base==0.7.8
 scikit-learn==1.5.1
-scikit-learn-intelex==20230426.111612
 scikit-plot==0.3.7
 sktime==0.26.0
 smmap==5.0.1
