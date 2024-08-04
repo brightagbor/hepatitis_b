@@ -250,7 +250,7 @@ psutil @ file:///work/ci_py311_2/psutil_1679337388738/work
 ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
 pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
 py-cpuinfo @ file:///Users/ktietz/demo/mc3/conda-bld/py-cpuinfo_1629480366017/work
-pyarrow==11.0.0
+pyarrow==17.0.0
 pyasn1 @ file:///Users/ktietz/demo/mc3/conda-bld/pyasn1_1629708007385/work
 pyasn1-modules==0.2.8
 pycaret==3.3.2
@@ -317,7 +317,7 @@ safetensors @ file:///croot/safetensors_1692949033383/work
 schemdraw==0.15
 scikit-base==0.7.8
 scikit-image @ file:///croot/scikit-image_1682528309703/work
-scikit-learn==1.4.2
+scikit-learn==1.5.1
 scikit-learn-intelex==20230426.111612
 scikit-plot==0.3.7
 scipy @ file:///croot/scipy_1691606680890/work/dist/scipy-1.11.1-cp311-cp311-linux_x86_64.whl#sha256=ba491c7d30a02bb93027e90b0aa58c0fe8d1e0fc3ddfe3469178740bd150aa45
@@ -363,7 +363,7 @@ termcolor==2.4.0
 terminado @ file:///work/ci_py311/terminado_1677696151350/work
 text-unidecode @ file:///Users/ktietz/demo/mc3/conda-bld/text-unidecode_1629401354553/work
 textdistance @ file:///tmp/build/80754af9/textdistance_1612461398012/work
-threadpoolctl @ file:///Users/ktietz/demo/mc3/conda-bld/threadpoolctl_1629802263681/work
+threadpoolctl==3.5.0
 three-merge @ file:///tmp/build/80754af9/three-merge_1607553261110/work
 tifffile @ file:///croot/tifffile_1695107451082/work
 tinycss2 @ file:///work/ci_py311/tinycss2_1676823757641/work
