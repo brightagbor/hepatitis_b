@@ -9,7 +9,6 @@ brotlipy==0.7.0
 cachetools==5.4.0
 category-encoders==2.6.3
 clyent==1.2.1
-conda-verify==3.4.2
 constantly==15.1.0
 cssselect==1.1.0
 Cython==3.0.10
