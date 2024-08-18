@@ -1,47 +1,98 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import streamlit as st
-from pycaret.classification import *
 import tensorflow as tf
 
-
-
-#  Loading the model back to a Python Environment¶
-# model = load_model("smote_model")
-
-# Path to the HDF5 file
-model_path = "ann_model.h5"
-
 # Load the model
+model_path = "ann_model.h5"
 model = tf.keras.models.load_model(model_path)
 
 # Define the Streamlit app
 def main():
     st.title("Early Detection of Hepatitis B")
 
-    # Define the input fields for the features
-    age = st.number_input('Age of the Patient')
-    sex = st.selectbox("Gender of the Patient", ["Male", "Female"])
-    steroid = st.selectbox("Have the patient received steroids treatment (yes/no)", ["Yes", "No"])
-    antivirals = st.selectbox("Is the patient undergoing antiviral treatment (yes/no)", ["Yes", "No"])
-    fatigue = st.selectbox("Does the patient experience fatigue (yes/no)", ["Yes", "No"])
-    malaise = st.selectbox("Does the patient experience malaise (yes/no)", ["Yes", "No"])
-    anorexia = st.selectbox("Does the patient have anorexia (yes/no)", ["Yes", "No"])
-    liver_big= st.selectbox("Is the patient liver enlarged (yes/no)", ["Yes", "No"])
-    liver_firm = st.selectbox("Is the patient liver firm (yes/no)", ["Yes", "No"])
-    spleen_palpable = st.selectbox("Is the patient spleen palpable (yes/no)", ["Yes", "No"])
-    spiders = st.selectbox("Presence of Spiders Nevi (yes/no)", ["Yes", "No"])
-    ascites = st.selectbox("Presence of Ascites (yes/no)", ["Yes", "No"])
-    varices = st.selectbox("Presence of Varices (yes/no)", ["Yes", "No"])
-    bilirubin = st.number_input('Bilirubin levels')
-    alk_phosphate = st.number_input('Alkaline Phosphate Levels')
-    sgot = st.number_input('Serum Glutamic Oxaloacetic Transaminase (SGOT) levels')
-    albumin = st.number_input("Albumin Levels")
-    protime = st.number_input('Protime Time')
-    histology = st.selectbox("Have the patient undergone Histological Examination (yes/no)", ["Yes", "No"])
-    # class_ = st.selectbox("Status", ["Yes", "No"])
+    # Right sidebar for code implementation and user input
+    st.write("Fill in the details below:")
 
+    age = st.number_input('Age of the Patient', min_value=0)
+
+    sex = st.radio("Gender of the Patient", ["Male", "Female"])
+    steroid = st.radio("Received steroid treatment?", ["Yes", "No"])
+    antivirals = st.radio("Undergoing antiviral treatment?", ["Yes", "No"])
+    fatigue = st.radio("Experiencing fatigue?", ["Yes", "No"])
+    malaise = st.radio("Experiencing malaise?", ["Yes", "No"])
+    anorexia = st.radio("Has anorexia?", ["Yes", "No"])
+    liver_big = st.radio("Liver enlarged?", ["Yes", "No"])
+    liver_firm = st.radio("Liver firm?", ["Yes", "No"])
+    spleen_palpable = st.radio("Spleen palpable?", ["Yes", "No"])
+    spiders = st.radio("Spider Nevi present?", ["Yes", "No"])
+    ascites = st.radio("Ascites present?", ["Yes", "No"])
+    varices = st.radio("Varices present?", ["Yes", "No"])
+    bilirubin = st.number_input('Bilirubin levels', min_value=0.0)
+    alk_phosphate = st.number_input('Alkaline Phosphate Levels', min_value=0.0)
+    sgot = st.number_input('SGOT levels', min_value=0.0)
+    albumin = st.number_input("Albumin Levels", min_value=0.0)
+    protime = st.number_input('Prothrombin Time', min_value=0.0)
+    histology = st.radio("Histological Examination done?", ["Yes", "No"])
+
+    # Left sidebar for symptoms
+    with st.sidebar:
+        st.header("Symptoms of Hepatitis B")
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Anorexia:</p> Restrictive eating patterns, excessive exercise, weight loss or failure to gain weight, hair loss, cold intolerance, fatigue, osteoporosis, menstrual irregularities
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Fatigue:</p> Persistent tiredness or exhaustion, lack of energy
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Malaise:</p> General discomfort, unease, lack of energy or motivation
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Liver Enlargement (Hepatomegaly):</p> Abdominal pain or fullness, jaundice, nausea, vomiting, fatigue
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Liver Firmness:</p> Firmness upon palpation of the liver, abdominal discomfort
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Palpable Spleen (Splenomegaly):</p> Abdominal pain, early satiety, anemia
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Spider Nevi (Spider Angiomas):</p> Small, red, spider-like blood vessels on the skin, commonly on the face, neck, and chest
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Ascites:</p> Abdominal swelling due to fluid buildup, discomfort, shortness of breath, weight gain
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Varices:</p> Enlarged veins in the esophagus or stomach, potential bleeding, vomiting blood, black stools
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Elevated Bilirubin Levels (Hyperbilirubinemia):</p> Jaundice, yellowing of the skin and eyes, dark urine, fatigue
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Elevated Alkaline Phosphatase Levels:</p> Jaundice, itching, bone pain, fatigue
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Elevated SGOT Levels (Aspartate Aminotransferase):</p> Liver damage symptoms, fatigue, weakness, jaundice
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Low Albumin Levels:</p> Swelling (edema), fatigue, weakness, ascites
+        """, unsafe_allow_html=True)
+
+        st.markdown("""
+            <p style='color:red; font-size:20px;'>Prolonged Prothrombin Time:</p> Easy bruising, excessive bleeding, increased risk of hemorrhage
+        """, unsafe_allow_html=True)
 
     # Create a dictionary from the input fields
     input_data = {
@@ -66,16 +117,16 @@ def main():
         'histology': histology,
     }
 
+    # Convert categorical inputs to numerical values
     for key, value in input_data.items():
         if value == "Male":
             input_data[key] = 1
-        if value == "Female":
+        elif value == "Female":
             input_data[key] = 0
-        if value == "Yes":
+        elif value == "Yes":
             input_data[key] = 1
-        if value == "No":
+        elif value == "No":
             input_data[key] = 0
-
 
     # Convert the dictionary to a DataFrame
     input_df = pd.DataFrame([input_data])
@@ -101,10 +152,9 @@ def main():
             
             # Provide feedback based on the prediction label
             if prediction_label == 0:
-                
-                st.error(f"The model indicates that you may have Hepatitis B, with a {100-float(chance)}% probability of being affected by the infection. It is crucial to seek further evaluation and confirmation from a healthcare professional and to follow their recommended course of action.")
+                st.error(f"The model indicates a potential Hepatitis B infection with a {100-float(chance)}% probability. Consult a healthcare professional for further evaluation.")
             else:
-                st.success(f"The model suggests that you are unlikely to have Hepatitis B, with a {chance}% probability of being free from the infection. Nonetheless, it is important to continue regular check-ups and consult a healthcare professional if you have any concerns.")
+                st.success(f"The model suggests a low likelihood of Hepatitis B with a {chance}% probability. Continue regular check-ups and consult a healthcare professional if needed.")
             
             # Display the prediction score
             st.write(f"Prediction Score: {prediction_score:.4f}")
